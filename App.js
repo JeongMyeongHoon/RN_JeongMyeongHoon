@@ -1,9 +1,16 @@
-//App.js 7/8 1:40pm
+//App.js 7/8 10:20pm
 import React from "react";
-import { StyleSheet, Button, View, Text, TouchableOpacity } from "react-native";
-import { createStackNavigator, createAppContainer } from "react-navigation";
+import {
+  createBottomTabNavigator,
+  createStackNavigator,
+  createAppContainer,
+} from 'react-navigation';
+import { SearchBar } from 'react-native-elements';
+import { StatusBar, StyleSheet, Button, View, Text, TouchableOpacity } from "react-native";
 import CategoryButton from './CategoryButton';
 import LinkingButton from './LinkingButton';
+import CategoryButton2 from './longCategoryButton';
+import CustomButton from './CustomButton';
 
 class LogoTitle extends React.Component {
   render() {
@@ -14,46 +21,62 @@ class LogoTitle extends React.Component {
     );
   }
 }
-class LogoTitle2 extends React.Component {
-  render() {
-    return (
-      <Text style={{fontSize: 25, color: 'white'}}>검색</Text>
-    );
-  }
-}
-
 class Main extends React.Component {
   static navigationOptions = {
-    headerTitle: <LogoTitle/>,
-    headerRight: (
-      <TouchableOpacity
-        onPress={() => alert('Hello')}>
-        <Text style={{
-          fontSize: 25,
-          color: 'white',
-          fontWeight: '500'
-        }}>  ፧   </Text>
-      </TouchableOpacity>
-    )
+    header: null
   };
+
+  state = {
+    search: '',
+  };
+
+  updateSearch = search => {
+    this.setState({ search });
+  };
+
   render() {
+    const { search } = this.state;
     return (
         <View style={styles.container}>
+          <StatusBar
+            barStyle = "light-content"
+            // dark-content, light-content and default
+            hidden = {false}
+            //To hide statusBar
+            backgroundColor = "#00BCD4"
+            //Background color of statusBar only works for Android
+            translucent = {false}
+            //allowing light, but not detailed shapes
+            networkActivityIndicatorVisible = {true}
+          />
+          <View style={styles.header} />
           <View style={styles.content}>
+          <View style={styles.header2}>
+              <Text style={{fontSize: 25, margin: '5%', color: 'white'}}>메인</Text>
+              <SearchBar
+                placeholder="ㅣ"
+                onChangeText={this.updateSearch}
+                value={search}
+              />
+          </View>
             <View style={styles.tag}>
                 <CategoryButton text="지역"/>
                 <CategoryButton text="종류"/>
                 <CategoryButton text="배달"/>
             </View>
             <View style={styles.content2}>
-              <View style={{height: '23%'}}/>
-               <View style={styles.elem}>
+              <View style={{height: '18%'}}/>
+              <Button
+                onPress= {() => this.props.navigation.navigate('TagSearch')}
+                title="다음 페이지"
+                color="black"
+              />
+              <View style={styles.elem}>
                 <LinkingButton text="식당 추가, 수정, 삭제"/>
                 <View style={{height: '8%'}}/>
                 <LinkingButton text="앱 관련 문의 및 피드백"/>
               </View>
             </View>
-            <View style={styles.footer} />
           </View>
       </View>
     );
@@ -62,91 +85,199 @@ class Main extends React.Component {
 
 class Search extends React.Component{
   static navigationOptions = {
-    headerTitle: <LogoTitle2/>
+    header: null
   };
   render(){
     return(
       <View style={styles.container}>
           <View style={styles.content}>
           <View style={styles.content2}>
-               <View style={styles.elem}>
-                <LinkingButton text="OO식당"/>
-                <View style={{height: '4%'}}/>
-                <LinkingButton text="OO식당"/>
-                <View style={{height: '4%'}}/>
-                <LinkingButton text="OO식당"/>
-                <View style={{height: '4%'}}/>
-                <LinkingButton text="OO식당"/>
-                <View style={{height: '4%'}}/>
-                <LinkingButton text="OO식당"/>
-                <View style={{height: '4%'}}/>
-                <LinkingButton text="OO식당"/>
-              </View>
             </View>
           </View>
-          <View style={styles.footer} />
       </View>
     );
   }
 }
 
-const AppNavigator = createStackNavigator(
-  {
-    Home: Main,
-    Search: Search
-  },
-  {
-    initialRouteName: "Home",
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: 'black'
-      },
-      headerTintColor: 'white',
-      headerTintStyle:{
-        fontSize: 5
-      },
-      headerTitleStyle: {
-        fontSize: 5
-      },
+class TagSearch extends React.Component {
+  static navigationOptions = {
+    headerTitle: <LogoTitle/>
+  };
+
+  state = {
+    search: '',
+  };
+
+  updateSearch = search => {
+    this.setState({ search });
+  };
+
+  render() {
+    const { search } = this.state;
+    return (
+        <View style={styles.container}>
+          <View style={styles.header} />
+          <View style={styles.content}>
+          <View style={styles.header2}>
+          <TouchableOpacity
+            style={{
+              backgroundColor : 'black',
+              borderRadius: 5,
+              marginLeft: '5%',
+              height: '40%'
+            }}
+            onPress={() => this.props.navigation.goBack()}>
+            <Text style={{
+              fontSize: 20,
+              color: 'white',
+            }}>Back</Text>
+          </TouchableOpacity>
+          <SearchBar
+            placeholder="ㅣ"
+            onChangeText={this.updateSearch}
+            value={search}
+          />
+        </View> 
+            <View style={styles.tag}>
+                <CategoryButton text="지역"/>
+                <CategoryButton text="종류"/>
+                <CategoryButton text="배달"/>
+            </View>
+            <View style={styles.content2}>
+              <View style={styles.elem}>
+                <CategoryButton2 text="양덕"/>
+                <View style={{height: '2%'}}/>
+                <CategoryButton2 text="육거리"/>
+                <View style={{height: '2%'}}/>
+                <CategoryButton2 text="법원"/>
+                <View style={{height: '2%'}}/>
+                <CategoryButton2 text="환호"/>
+                <View style={{height: '2%'}}/>
+                <CategoryButton2 text="기타"/>
+                <View style={{height: '2%'}}/>
+              </View>
+              <View style={styles.elem}>
+                <LinkingButton text="식당 추가, 수정, 삭제"/>
+                <View style={{height: '8%'}}/>
+                <LinkingButton text="앱 관련 문의 및 피드백"/>
+              </View>
+            </View>
+          </View>
+      </View>
+    );
+  }
+}
+
+  class SettingsScreen extends React.Component {
+    static navigationOptions = {
+      header: null,
+    };
+    render() {
+      return (
+          <View style={styles.container}>          
+            <StatusBar
+              barStyle = "light-content"
+              // dark-content, light-content and default
+              hidden = {false}
+              //To hide statusBar
+              backgroundColor = "#00BCD4"
+              //Background color of statusBar only works for Android
+              translucent = {false}
+              //allowing light, but not detailed shapes
+              networkActivityIndicatorVisible = {true}
+            />
+            <View style={styles.header}/>
+            <View style={styles.content}>
+              <View style={styles.header2}>
+                <Text style={{fontSize: 25, margin: '5%', color: 'white'}}>내가 찜한 식당</Text>
+              </View>
+
+              <View style={styles.content2}>
+                <View style={{height: '18%'}}/>
+              </View>
+            </View>
+        </View>
+      );
+    }
+  }
+
+  const HomeStack = createStackNavigator(
+    {
+      Home: Main,
+      Search: Search,
+      TagSearch: TagSearch,
     },
-  }
-);
+    {
+      initialRouteName: "Home",
+      headerMode: 'none',
+      defaultNavigationOptions: {
+        headerVisible: false,
+      },
+    }
+  );
+  
+  const SettingsStack = createStackNavigator(
+    {
+      Settings: SettingsScreen,
+      TagSearch: TagSearch,
+    },
+  );
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  content: {
-    flex:1,
-  },
-  footer: {
-    height:'8%',
-    backgroundColor:'black',
-  },
-  content2: {
-    flex: 1,
-  },
-  header2: {
-    backgroundColor: 'black',
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  tag: {
-    width: '100%',
-    height: '10%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderBottomWidth: 2,
-    borderColor: 'gray',
-    paddingHorizontal: '2%'
-  },
-  elem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column'
-  }
-});
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    content: {
+      flex:1,
+    },
+    header: {
+      height:'5%',
+      backgroundColor:'black',
+    },  
+    footer: {
+      height:'8%',
+      backgroundColor:'black',
+    },
+    content2: {
+      flex: 1,
+    },
+    header2: {
+      backgroundColor: 'black',
+      width: '100%',
+      height: '11%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    tag: {
+      width: '100%',
+      height: '10%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderBottomWidth: 2,
+      borderColor: 'gray',
+      paddingHorizontal: '2%'
+    },
+    elem: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column'
+    }
+  });
+ 
 
-export default createAppContainer(AppNavigator);
+export default createAppContainer(createBottomTabNavigator(
+{
+  Home: HomeStack,
+  '내가 찜한 식당': SettingsStack
+},
+{
+  tabBarOptions: {
+    style: {
+      backgroundColor: 'black'
+    },
+    activeTintColor: 'white',
+    inactiveTintColor: 'gray',
+  }
+}
+));
