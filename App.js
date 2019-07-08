@@ -1,11 +1,9 @@
-//App.js 7/7 7:40pm
+//App.js 7/8 1:00pm
 import React from "react";
-import { StyleSheet, Button, View, Text, ScrollView } from "react-native";
+import { StyleSheet, Button, View, Text } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import CategoryButton from './CategoryButton';
-import CustomButton from './CustomButton';
 import LinkingButton from './LinkingButton';
-import HeaderButton from './HeaderButton';
 
 class LogoTitle extends React.Component {
   render() {
@@ -28,8 +26,12 @@ class Main extends React.Component {
   static navigationOptions = {
     headerTitle: <LogoTitle/>,
     headerRight: (
-      <HeaderButton text="MENU"/>
-    ),
+      <Button
+        onPress={() => alert('Hello')}
+        title="  ፧  "
+        color="white"
+      />
+    )
   };
   render() {
     return (
@@ -41,14 +43,8 @@ class Main extends React.Component {
                 <CategoryButton text="배달"/>
             </View>
             <View style={styles.content2}>
-              <View style={{height: '18%'}}/>
-              <Button
-                onPress= {() => this.props.navigation.navigate('Search')}
-                title="MENU"
-                color="black"
-              />
-
-              <View style={styles.elem}>
+              <View style={{height: '23%'}}/>
+               <View style={styles.elem}>
                 <LinkingButton text="식당 추가, 수정, 삭제"/>
                 <View style={{height: '8%'}}/>
                 <LinkingButton text="앱 관련 문의 및 피드백"/>
@@ -69,12 +65,23 @@ class Search extends React.Component{
     return(
       <View style={styles.container}>
           <View style={styles.content}>
-            <View style={styles.content2}>
-              <View style={styles.elem}>
+          <View style={styles.content2}>
+               <View style={styles.elem}>
+                <LinkingButton text="OO식당"/>
+                <View style={{height: '4%'}}/>
+                <LinkingButton text="OO식당"/>
+                <View style={{height: '4%'}}/>
+                <LinkingButton text="OO식당"/>
+                <View style={{height: '4%'}}/>
+                <LinkingButton text="OO식당"/>
+                <View style={{height: '4%'}}/>
+                <LinkingButton text="OO식당"/>
+                <View style={{height: '4%'}}/>
+                <LinkingButton text="OO식당"/>
               </View>
             </View>
-            <View style={styles.footer} />
           </View>
+          <View style={styles.footer} />
       </View>
     );
   }
