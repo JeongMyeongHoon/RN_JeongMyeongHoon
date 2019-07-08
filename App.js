@@ -1,4 +1,4 @@
-//App.js 7/8 10:20pm
+//App.js 7/8 11/20pm
 import React from "react";
 import {
   createBottomTabNavigator,
@@ -10,7 +10,6 @@ import { StatusBar, StyleSheet, Button, View, Text, TouchableOpacity } from "rea
 import CategoryButton from './CategoryButton';
 import LinkingButton from './LinkingButton';
 import CategoryButton2 from './longCategoryButton';
-import CustomButton from './CustomButton';
 
 class LogoTitle extends React.Component {
   render() {
@@ -53,11 +52,20 @@ class Main extends React.Component {
           <View style={styles.content}>
           <View style={styles.header2}>
               <Text style={{fontSize: 25, margin: '5%', color: 'white'}}>메인</Text>
-              <SearchBar
-                placeholder="ㅣ"
-                onChangeText={this.updateSearch}
-                value={search}
-              />
+              <TouchableOpacity
+                style={{
+                  backgroundColor : 'black',
+                  borderRadius: 5,
+                  marginLRight: '15%',
+                  marginVertical: '5%',
+                  height: '29%'
+                }}
+              onPress={() => this.props.navigation.navigate('TagSearch')}>
+              <Text style={{
+                fontSize: 20,
+                color: 'white',
+              }}>G    </Text>
+          </TouchableOpacity>
           </View>
             <View style={styles.tag}>
                 <CategoryButton text="지역"/>
@@ -65,12 +73,7 @@ class Main extends React.Component {
                 <CategoryButton text="배달"/>
             </View>
             <View style={styles.content2}>
-              <View style={{height: '18%'}}/>
-              <Button
-                onPress= {() => this.props.navigation.navigate('TagSearch')}
-                title="다음 페이지"
-                color="black"
-              />
+              <View style={{height: '23%'}}/>
               <View style={styles.elem}>
                 <LinkingButton text="식당 추가, 수정, 삭제"/>
                 <View style={{height: '8%'}}/>
@@ -124,7 +127,7 @@ class TagSearch extends React.Component {
               backgroundColor : 'black',
               borderRadius: 5,
               marginLeft: '5%',
-              height: '40%'
+              height: '36%'
             }}
             onPress={() => this.props.navigation.goBack()}>
             <Text style={{
@@ -133,7 +136,13 @@ class TagSearch extends React.Component {
             }}>Back</Text>
           </TouchableOpacity>
           <SearchBar
-            placeholder="ㅣ"
+            containerStyle={{
+              backgroundColor: 'black',
+              borderWidth: 1, 
+              borderRadius: 5,
+              width: '82%'
+            }}
+            placeholder="검색어 입력"
             onChangeText={this.updateSearch}
             value={search}
           />
@@ -189,7 +198,7 @@ class TagSearch extends React.Component {
             <View style={styles.header}/>
             <View style={styles.content}>
               <View style={styles.header2}>
-                <Text style={{fontSize: 25, margin: '5%', color: 'white'}}>내가 찜한 식당</Text>
+                <Text style={{fontSize: 25, marginHorizontal: '5%', marginVertical: '4%', color: 'white'}}>내가 찜한 식당</Text>
               </View>
 
               <View style={styles.content2}>
