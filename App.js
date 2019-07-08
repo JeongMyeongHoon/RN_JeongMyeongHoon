@@ -1,87 +1,120 @@
-import React, {Component} from 'react';
-import {Alert, StyleSheet, Text, View, Button} from 'react-native';
-import CategoryButton from './CategoryButton'
+//App.js 7/7 7:40pm
+import React from "react";
+import { StyleSheet, Button, View, Text, ScrollView } from "react-native";
+import { createStackNavigator, createAppContainer } from "react-navigation";
+import CategoryButton from './CategoryButton';
+import CustomButton from './CustomButton';
+import LinkingButton from './LinkingButton';
+import HeaderButton from './HeaderButton';
 
-export default class App extends Component {
-  _onPressButton4() {
-    Alert.alert('앱 관련 문의 및 피드백')
-  }
-  _onPressButton5() {
-    Alert.alert('식당 추가, 수정, 삭제')
-  }
-
-  constructor(props){
-    super(props);
-    this.state={
-      defaultColor: true
-    }
-  }
-  _onPressButton(){
-    this.setState({
-      defaultColor : !this.state.defaultColor
-    });
-  }
-  _onPressButton2(){
-    this.setState({
-      defaultColor : !this.state.defaultColor
-    });
-  }
-  _onPressButton3(){
-    this.setState({
-      defaultColor : !this.state.defaultColor
-    });
-  }
+class LogoTitle extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.header} />
+      <View>
+        <Text style={{fontSize: 25, color: 'white'}}>메인</Text>
+      </View>
+    );
+  }
+}
+class LogoTitle2 extends React.Component {
+  render() {
+    return (
+      <Text style={{fontSize: 25, color: 'white'}}>검색</Text>
+    );
+  }
+}
+
+class Main extends React.Component {
+  static navigationOptions = {
+    headerTitle: <LogoTitle/>,
+    headerRight: (
+      <HeaderButton text="MENU"/>
+    ),
+  };
+  render() {
+    return (
+        <View style={styles.container}>
           <View style={styles.content}>
-
-            <View style={styles.header2}>
-              <Text style={{fontSize: 25, margin: '5%', color: 'white'}}>메인</Text>
-            </View>
-
             <View style={styles.tag}>
-              <CategoryButton text="지역"/>
-              <CategoryButton text="종류"/>
-              <CategoryButton text="배달"/>
+                <CategoryButton text="지역"/>
+                <CategoryButton text="종류"/>
+                <CategoryButton text="배달"/>
             </View>
-           <View style={styles.elem}>
-            <View style={styles.buttonContainer5}>
+            <View style={styles.content2}>
+              <View style={{height: '18%'}}/>
               <Button
-               onPress={this._onPressButton5}
-               title="식당 추가, 수정, 삭제"
-               color="white"
+                onPress= {() => this.props.navigation.navigate('Search')}
+                title="MENU"
+                color="black"
               />
-            </View>
-          </View>
-          <View style={styles.elem}>
-            <View style={styles.buttonContainer}>
-              <Button
-                onPress={this._onPressButton4}
-                title="앱 관련 문의 및 피드백"
-                color="white"
-              />
-            </View>
-          </View>
 
+              <View style={styles.elem}>
+                <LinkingButton text="식당 추가, 수정, 삭제"/>
+                <View style={{height: '8%'}}/>
+                <LinkingButton text="앱 관련 문의 및 피드백"/>
+              </View>
+            </View>
             <View style={styles.footer} />
-        </View>
+          </View>
       </View>
     );
   }
 }
 
+class Search extends React.Component{
+  static navigationOptions = {
+    headerTitle: <LogoTitle2/>
+  };
+  render(){
+    return(
+      <View style={styles.container}>
+          <View style={styles.content}>
+            <View style={styles.content2}>
+              <View style={styles.elem}>
+              </View>
+            </View>
+            <View style={styles.footer} />
+          </View>
+      </View>
+    );
+  }
+}
+
+const AppNavigator = createStackNavigator(
+  {
+    Home: Main,
+    Search: Search
+  },
+  {
+    initialRouteName: "Home",
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: 'black'
+      },
+      headerTintColor: 'white',
+      headerTintStyle:{
+        fontSize: 5
+      },
+      headerTitleStyle: {
+        fontSize: 5
+      },
+    },
+  }
+);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    height:'4%',
-    backgroundColor:'black',
-  },
   content: {
     flex:1,
+  },
+  footer: {
+    height:'8%',
+    backgroundColor:'black',
+  },
+  content2: {
+    flex: 1,
   },
   header2: {
     backgroundColor: 'black',
@@ -89,12 +122,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-  },
-  elem: {
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderColor:'#eee',
   },
   tag: {
     width: '100%',
@@ -105,25 +132,11 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     paddingHorizontal: '2%'
   },
-  buttonContainer: {
-    marginLeft: '5%',
-    marginRight: '5%',
-    backgroundColor: '#585858',
-    flex: 1,
-    flexDirection: 'row',
-    borderRadius: 5,
+  elem: {
+    alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: '3%'
-  },
-  buttonContainer5: {
-    marginRight: '5%',
-    marginLeft: '5%',
-    marginTop: '60%',
-    backgroundColor: '#585858',
-    flex: 1,
-    flexDirection: 'row',
-    borderRadius: 5,
-    justifyContent: 'center',
-    marginBottom: '3%'
+    flexDirection: 'column'
   }
 });
+
+export default createAppContainer(AppNavigator);
