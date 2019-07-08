@@ -1,4 +1,4 @@
-//App.js 7/9 12:00am
+//App.js 7/9 1:05am
 import React from "react";
 import {
   createBottomTabNavigator,
@@ -6,7 +6,7 @@ import {
   createAppContainer,
 } from 'react-navigation';
 import { SearchBar } from 'react-native-elements';
-import { StatusBar, StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { Image, StatusBar, StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import CategoryButton from './CategoryButton';
 import LinkingButton from './LinkingButton';
 import CategoryButton2 from './longCategoryButton';
@@ -48,16 +48,17 @@ class Main extends React.Component {
                 style={{
                   backgroundColor : 'black',
                   borderRadius: 5,
-                  marginLRight: '15%',
-                  marginVertical: '5%',
+                  marginLRight: '10%',
+                  marginTop: '8%',
+                  marginBottom: '13%',
                   height: '29%'
                 }}
               onPress={() => this.props.navigation.navigate('TagSearch')}>
-              <Text style={{
-                fontSize: 20,
-                color: 'white',
-              }}>G    </Text>
-          </TouchableOpacity>
+                <Image
+                  source={require('./Search.png')}
+                  style={styles.ImageIconStyle}
+                />
+              </TouchableOpacity>
           </View>
             <View style={styles.tag}>
                 <CategoryButton text="지역"/>
@@ -178,7 +179,6 @@ class SettingsScreen extends React.Component {
             <View style={styles.header2}>
               <Text style={{fontSize: 25, marginHorizontal: '5%', marginVertical: '4%', color: 'white'}}>내가 찜한 식당</Text>
             </View>
-
             <View style={styles.content2}>
               <View style={{height: '18%'}}/>
             </View>
@@ -251,7 +251,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column'
-  }
+  },
+  ImageIconStyle: {
+    marginVertical: '5%',
+    marginRight: '11%',
+    height: '45%',
+    width: '90%',
+    resizeMode : 'stretch',
+  },
 });
  
 // 탭 네비게이터 생성
