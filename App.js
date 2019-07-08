@@ -1,6 +1,6 @@
-//App.js 7/8 1:00pm
+//App.js 7/8 1:40pm
 import React from "react";
-import { StyleSheet, Button, View, Text } from "react-native";
+import { StyleSheet, Button, View, Text, TouchableOpacity } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import CategoryButton from './CategoryButton';
 import LinkingButton from './LinkingButton';
@@ -26,11 +26,14 @@ class Main extends React.Component {
   static navigationOptions = {
     headerTitle: <LogoTitle/>,
     headerRight: (
-      <Button
-        onPress={() => alert('Hello')}
-        title="  ፧  "
-        color="white"
-      />
+      <TouchableOpacity
+        onPress={() => alert('Hello')}>
+        <Text style={{
+          fontSize: 25,
+          color: 'white',
+          fontWeight: '500'
+        }}>  ፧   </Text>
+      </TouchableOpacity>
     )
   };
   render() {
