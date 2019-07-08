@@ -1,4 +1,4 @@
-//App.js 7/8 12:00am
+//App.js 7/9 12:00am
 import React from "react";
 import {
   createBottomTabNavigator,
