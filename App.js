@@ -1,78 +1,191 @@
-//App.js 7/9 1:05am
-import React from "react";
+//App.js 7/9 11:45pm
+import React, { Component } from "react";
 import {
   createBottomTabNavigator,
   createStackNavigator,
   createAppContainer,
 } from 'react-navigation';
-import { SearchBar } from 'react-native-elements';
-import { Image, StatusBar, StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import CategoryButton from './CategoryButton';
-import LinkingButton from './LinkingButton';
-import CategoryButton2 from './longCategoryButton';
+import { Image, StatusBar, StyleSheet, View, Text, TouchableOpacity, Dimensions, Alert } from "react-native";
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { Header } from "react-native-elements"
+import SearchHeader from 'react-native-search-header';
+
+// 종류
+const FirstRoute = () => (
+  <View style={[styles.scene, { backgroundColor: 'white' }]}>
+    <View style={styles.buttonGroup}>
+      <View style={{flex: 1, flexDirection: 'row'}}>
+        <Button5 name="한식" />
+        <Button6 name="양식" />
+      </View>
+      <View style = {{height: '11%'}} />
+      <View style={{flex: 1, flexDirection: 'row'}}>
+        <Button3 name="중식" />
+        <Button4 name="일식" />
+      </View>
+      <View style = {{height: '11%'}} />
+      <View style={{flex: 1, flexDirection: 'row'}}>
+        <Button name="야식" />
+        <Button2 name="기타" />
+      </View>
+    </View>
+    <View style = {{height: '10%'}}/>
+  </View>
+);
+
+// 지역
+const SecondRoute = () => (
+  <View style={[styles.scene, { backgroundColor: 'white' }]} />
+);
+
+// 배달
+const ThirdRoute = () => (
+  <View style={[styles.scene, { backgroundColor: 'white' }]} />
+);
+
+// 사진 버튼 생성하는 클래스들
+class Button extends Component {
+  render() {
+    return (
+      <View style={{flex: 1, height: '120%', borderWidth: 0, justifyContent: 'center', alignItems: 'center'}}>
+        <Image
+          source={require('./others.jpg')}
+          style={{width: '100%', height: '120%'}}
+        />
+      </View>
+    )
+  }
+}
+class Button2 extends Component {
+  render() {
+    return (
+      <View style={{flex: 1, height: '120%', borderWidth: 0, justifyContent: 'center', alignItems: 'center'}}>
+        <Image
+          source={require('./nighteat.jpeg')}
+          style={{width: '100%', height: '120%'}}
+        />
+      </View>
+    )
+  }
+}
+class Button3 extends Component {
+  render() {
+    return (
+      <View style={{flex: 1, height: '120%', borderWidth: 0, justifyContent: 'center', alignItems: 'center'}}>
+        <Image
+          source={require('./chinese.jpeg')}
+          style={{width: '100%', height: '120%'}}
+        />
+      </View>
+    )
+  }
+}
+class Button4 extends Component {
+  render() {
+    return (
+      <View style={{flex: 1, height: '120%', borderWidth: 0, justifyContent: 'center', alignItems: 'center'}}>
+        <Image
+          source={require('./japanese.jpeg')}
+          style={{width: '100%', height: '120%'}}
+        />
+      </View>
+    )
+  }
+}
+class Button5 extends Component {
+  render() {
+    return (
+      <View style={{flex: 1, height: '120%', borderWidth: 0, justifyContent: 'center', alignItems: 'center'}}>
+        <Image
+          source={require('./korean.jpeg')}
+          style={{width: '100%', height: '120%'}}
+        />
+      </View>
+    )
+  }
+}
+class Button6 extends Component {
+  render() {
+    return (
+      <View style={{flex: 1, height: '120%', borderWidth: 0, justifyContent: 'center', alignItems: 'center'}}>
+        <Image
+          source={require('./western.jpg')}
+          style={{width: '100%', height: '120%'}}
+        />
+      </View>
+    )
+  }
+}
+// 사진 버튼 생성하는 클래스들
 
 // 메인 페이지 만드는 클래스
 class Main extends React.Component {
-  static navigationOptions = {
+  static navigationOptions = {        // Navigation Header 삭제
     header: null
   };
 
   state = {
-    search: '',
-  };
-
-  updateSearch = search => {
-    this.setState({ search });
+    index: 0,
+    routes: [
+      { key: 'first', title: '종류' },
+      { key: 'second', title: '지역' },
+      { key: 'third', title: '배달'}
+    ],
   };
 
   render() {
-    const { search } = this.state;
     return (
         <View style={styles.container}>
           <StatusBar        // 상단 Status 바 생성
-            barStyle = "light-content"
+            barStyle = "dark-content"
             // dark-content, light-content and default
             hidden = {false}
             //To hide statusBar
-            backgroundColor = "#00BCD4"
+            backgroundColor = "white"
             //Background color of statusBar only works for Android
             translucent = {false}
             //allowing light, but not detailed shapes
             networkActivityIndicatorVisible = {true}
           />
-          <View style={styles.header} />
-          <View style={styles.content}>
-          <View style={styles.header2}>
-              <Text style={{fontSize: 25, margin: '5%', color: 'white'}}>메인</Text>
-              <TouchableOpacity
-                style={{
-                  backgroundColor : 'black',
-                  borderRadius: 5,
-                  marginLRight: '10%',
-                  marginTop: '8%',
-                  marginBottom: '13%',
-                  height: '29%'
-                }}
-              onPress={() => this.props.navigation.navigate('TagSearch')}>
-                <Image
-                  source={require('./Search.png')}
-                  style={styles.ImageIconStyle}
-                />
-              </TouchableOpacity>
-          </View>
-            <View style={styles.tag}>
-                <CategoryButton text="지역"/>
-                <CategoryButton text="종류"/>
-                <CategoryButton text="배달"/>
-            </View>
-            <View style={styles.content2}>
-              <View style={{height: '23%'}}/>
-              <View style={styles.elem}>
-                <LinkingButton text="식당 추가, 수정, 삭제"/>
-                <View style={{height: '8%'}}/>
-                <LinkingButton text="앱 관련 문의 및 피드백"/>
-              </View>
-            </View>
+
+          <Header
+            leftComponent={null}
+            centerComponent={{ text: '한동네맛집', style: { color: 'black', fontSize: '22.5%', fontWeight: '500' } }}
+            rightComponent={{ icon: 'search', color: 'black', onPress: () => this.searchHeader.show()}}
+            containerStyle={{
+              backgroundColor: 'white',
+              justifyContent: 'space-around',
+              height: '12%'
+            }}
+          />
+          <SearchHeader
+            ref = {(searchHeader) => {
+                this.searchHeader = searchHeader;
+            }}
+            placeholder = 'Search...'
+            placeholderColor = 'gray'
+            pinnedSuggestions = {[ '양덕', '육거리', '한동네맛집', '아 배고파' ]}
+          />
+            <View style={styles.content}>
+              <TabView
+                navigationState={this.state}
+                renderScene={SceneMap({
+                  first: FirstRoute,
+                  second: SecondRoute,
+                  third: ThirdRoute
+                })}
+                onIndexChange={index => this.setState({ index })}
+                initialLayout={{ width: Dimensions.get('window').width }}
+                useNativeDriver = {true}
+                renderTabBar={(props) =>
+                  <TabBar
+                    {...props}
+                    indicatorStyle={{ backgroundColor: 'white' }}
+                    style={{backgroundColor: "pink"}}
+                    renderIcon={this.renderIcon}
+                  />
+                }
+              />
           </View>
       </View>
     );
@@ -81,90 +194,27 @@ class Main extends React.Component {
 
 // 우측 상단 검색 버튼 눌렀을 때 나오는 페이지 만드는 클래스
 class TagSearch extends React.Component {
-  static navigationOptions = {
+  static navigationOptions = {        // Navigation Header 삭제
     header: null
   };
 
-  state = {
-    search: '',
-  };
-
-  updateSearch = search => {
-    this.setState({ search });
-  };
-
   render() {
-    const { search } = this.state;
     return (
-        <View style={styles.container}>
-          <View style={styles.header} />
-          <View style={styles.content}>
-          <View style={styles.header2}>
-          <TouchableOpacity
-            style={{
-              backgroundColor : 'black',
-              borderRadius: 5,
-              marginLeft: '5%',
-              height: '36%'
-            }}
-            onPress={() => this.props.navigation.goBack()}>
-            <Text style={{
-              fontSize: 20,
-              color: 'white',
-            }}>Back</Text>
-          </TouchableOpacity>
-          <SearchBar        // 검색창 생성
-            containerStyle={{
-              backgroundColor: 'black',
-              borderWidth: 1, 
-              borderRadius: 5,
-              width: '82%'
-            }}
-            placeholder="검색어 입력"
-            onChangeText={this.updateSearch}
-            value={search}
-          />
-        </View> 
-            <View style={styles.tag}>
-                <CategoryButton text="지역"/>
-                <CategoryButton text="종류"/>
-                <CategoryButton text="배달"/>
-            </View>
-            <View style={styles.content2}>
-              <View style={styles.elem}>
-                <CategoryButton2 text="양덕"/>
-                <View style={{height: '2%'}}/>
-                <CategoryButton2 text="육거리"/>
-                <View style={{height: '2%'}}/>
-                <CategoryButton2 text="법원"/>
-                <View style={{height: '2%'}}/>
-                <CategoryButton2 text="환호"/>
-                <View style={{height: '2%'}}/>
-                <CategoryButton2 text="기타"/>
-                <View style={{height: '2%'}}/>
-              </View>
-              <View style={styles.elem}>
-                <LinkingButton text="식당 추가, 수정, 삭제"/>
-                <View style={{height: '8%'}}/>
-                <LinkingButton text="앱 관련 문의 및 피드백"/>
-              </View>
-            </View>
-          </View>
-      </View>
+      <View style={styles.container}></View>
     );
   }
 }
 
 // 내가 찜한 식당 페이지 만드는 클래스(우측 하단 탭 눌렀을 때)
 class SettingsScreen extends React.Component {
-  static navigationOptions = {
+  static navigationOptions = {        // Navigation Header 삭제
     header: null,
   };
   render() {
     return (
         <View style={styles.container}>          
           <StatusBar        // 상단 Status 바 생성
-            barStyle = "light-content"
+            barStyle = "dark-content"
             // dark-content, light-content and default
             hidden = {false}
             //To hide statusBar
@@ -174,15 +224,24 @@ class SettingsScreen extends React.Component {
             //allowing light, but not detailed shapes
             networkActivityIndicatorVisible = {true}
           />
-          <View style={styles.header}/>
-          <View style={styles.content}>
-            <View style={styles.header2}>
-              <Text style={{fontSize: 25, marginHorizontal: '5%', marginVertical: '4%', color: 'white'}}>내가 찜한 식당</Text>
-            </View>
-            <View style={styles.content2}>
-              <View style={{height: '18%'}}/>
-            </View>
-          </View>
+          <Header
+            leftComponent={null}
+            centerComponent={{ text: '내가 찜한 식당', style: { color: 'black', fontSize: '22.5%', fontWeight: '500' } }}
+            rightComponent={{ icon: 'search', color: 'black'}}
+            containerStyle={{
+              backgroundColor: 'white',
+              justifyContent: 'space-around',
+              height: '12%'
+            }}
+          />
+          <SearchHeader       // 검색창 생성
+            ref = {(searchHeader) => {
+                this.searchHeader = searchHeader;
+            }}
+            placeholder = 'Search...'
+            placeholderColor = 'gray'
+            pinnedSuggestions = {[ '양덕', '육거리', '한동네맛집', '아 배고파' ]}
+          />
       </View>
     );
   }
@@ -214,10 +273,10 @@ const SettingsStack = createStackNavigator(
 // 스타일
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   content: {
-    flex:1,
+    flex:1
   },
   header: {
     height:'5%',
@@ -228,29 +287,26 @@ const styles = StyleSheet.create({
     backgroundColor:'black',
   },
   content2: {
-    flex: 1,
+    flex: 1
   },
   header2: {
-    backgroundColor: 'black',
+    backgroundColor: 'white',
     width: '100%',
     height: '11%',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: 'gray'
   },
   tag: {
     width: '100%',
     height: '10%',
     flexDirection: 'row',
     alignItems: 'center',
-    borderBottomWidth: 2,
+    borderWidth: 2,
     borderColor: 'gray',
     paddingHorizontal: '2%'
-  },
-  elem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column'
   },
   ImageIconStyle: {
     marginVertical: '5%',
@@ -259,6 +315,18 @@ const styles = StyleSheet.create({
     width: '90%',
     resizeMode : 'stretch',
   },
+  elem: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row'
+  },
+  buttonGroup: {
+    height: '80%'
+  },
+  scene: {
+    flex: 1,
+    backgroundColor: 'pink'
+  }
 });
  
 // 탭 네비게이터 생성
@@ -270,10 +338,10 @@ export default createAppContainer(createBottomTabNavigator(
   {
     tabBarOptions: {
       style: {
-        backgroundColor: 'black'
+        backgroundColor: 'pink'
       },
-      activeTintColor: 'white',
-      inactiveTintColor: 'gray',
+      activeTintColor: 'black',
+      inactiveTintColor: 'gray'
     }
   }
 ));
