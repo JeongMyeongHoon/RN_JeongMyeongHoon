@@ -1,4 +1,4 @@
-//LinkingButton.js 7/7 1:30
+//LinkingButton.js 7/8 9:40pm
 import React, { Component } from 'react';
 import { Linking, TouchableOpacity, Text } from 'react-native';
 
